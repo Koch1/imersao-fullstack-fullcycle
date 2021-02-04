@@ -10,12 +10,9 @@ type User struct {
 	Base `value:"required"`
 	Name string `json:"name" valid:"notnull"`
 	Email string `json:"email" valid:"email"`
-	Account []*Account `valid:"-"`	
 }
 func (user *User) isValid() error{
-	_ , err:= govalidator.ValidateStruct(bank)
-
-	
+	validator, err:= govalidator.ValidateStruct(user)	
 	if err!=nil{
 		return err
 	}
@@ -23,16 +20,16 @@ func (user *User) isValid() error{
 }
 
 
-func NewBank (code string,name string)(*Bank, error){
-	bank :=Bank{
-		Code:code,
+func NewUser (name string,email string)(*User, error){
+	user :=User{
 		Name:name,
+		Email:email,
 	}
-	bank.ID= uuid.NewV4().String()
-	bank.CreateadAt=time.Now()
-	err:=bank.isValid()
+	user.ID= uuid.NewV4().String()
+	user.CreateadAt=time.Now()
+	err:=user.isValid()
 	if err!=nil{
 		return nil, err
 	}
-	return &bank,nil 
+	return &user,nil 
 }
